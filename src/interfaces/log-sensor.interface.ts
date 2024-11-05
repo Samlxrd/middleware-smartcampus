@@ -10,4 +10,5 @@ export interface LogSensor {
 
 export interface LogSensorRepository {
     create(data: CreateLogSensorSchema): Promise<LogSensor>;
+    getLogsBySensorId(sensor_id: number): Promise<LogSensor[]>;
 }

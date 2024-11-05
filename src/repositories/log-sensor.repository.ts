@@ -17,4 +17,20 @@ export class LogSensorRepositoryPrisma implements LogSensorRepository {
             timestamp: result.timestamp.getTime()
         };
     }
+    async getLogsBySensorId(sensor_id: number): Promise<LogSensor[]> {
+        const result = await prisma.logsensor.findMany({
+            where: {
+                sensor_id: sensor_id
+            },
+            orderBy: {
+                timestamp: 'desc'
+            }
+        })
+        return result.map(log => {
+            return {
+                ...log,
+                timestamp: log.timestamp.getTime()
+            }
+        });
+    }
 }

@@ -13,4 +13,9 @@ export class LogSensorController {
         const result = await this.logSensorUsecase.create(logData);
         return reply.code(201).send(result);
     }
+
+    async getLogsBySensorId(id: number, req: FastifyRequest, reply: FastifyReply) {
+        const result = await this.logSensorUsecase.getLogsBySensorId(id);
+        return reply.send(result);
+    }
 }

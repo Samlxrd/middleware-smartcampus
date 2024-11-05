@@ -9,7 +9,6 @@ export class SensorController {
     }
 
     async create(req: FastifyRequest, reply: FastifyReply) {
-        console.log('aqui')
         const sensorData = createSensorSchema.parse(req.body);
         const result = await this.sensorUsecase.create(sensorData);
         return reply.code(201).send(result);
