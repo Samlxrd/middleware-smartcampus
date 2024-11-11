@@ -1,6 +1,6 @@
-import { SensorDataSchema } from "schemas/sensor.schema";
+import { SensorDataSchema } from "../sensor/sensor.schema";
 import { prisma } from "../database/prisma-client";
-import { LogSensor, LogSensorRepository } from "../interfaces/log-sensor.interface";
+import { LogSensor, LogSensorRepository } from "./leitura-sensor.interface";
 
 export class LogSensorRepositoryPrisma implements LogSensorRepository {
     async create(data: SensorDataSchema): Promise<LogSensor> {

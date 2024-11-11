@@ -1,8 +1,8 @@
-import { SensorDataSchema } from "schemas/sensor.schema";
-import { LogSensor, LogSensorRepository } from "../interfaces/log-sensor.interface";
-import { LogSensorRepositoryPrisma } from "../repositories/log-sensor.repository";
-import { StatusSalaRepository } from "interfaces/status-sala.interface";
-import { StatusSalaRepositoryPrisma } from "repositories/status-sala.repository";
+import { SensorDataSchema } from "../sensor/sensor.schema";
+import { LogSensor, LogSensorRepository } from "./leitura-sensor.interface";
+import { LogSensorRepositoryPrisma } from "./leitura-sensor.repository";
+import { StatusSalaRepository } from "status-sala/status-sala.interface";
+import { StatusSalaRepositoryPrisma } from "status-sala/status-sala.repository";
 
 export class LogSensorUsecase {
     private logSensorRepository: LogSensorRepository;

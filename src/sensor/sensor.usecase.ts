@@ -1,7 +1,7 @@
 import { ApiError } from "../errors";
-import { Sensor, SensorRepository } from "../interfaces/sensor.interface";
-import { SensorRepositoryPrisma } from "../repositories/sensor.repository";
-import { CreateSensorSchema } from "../schemas/sensor.schema";
+import { Sensor, SensorRepository } from "./sensor.interface";
+import { SensorRepositoryPrisma } from "./sensor.repository";
+import { CreateSensorSchema } from "./sensor.schema";
 
 export class SensorUsecase {
     private sensorRepository: SensorRepository;

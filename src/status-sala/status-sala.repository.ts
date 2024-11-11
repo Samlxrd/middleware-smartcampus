@@ -1,6 +1,6 @@
 import { prisma } from "database/prisma-client";
-import { StatusSala, StatusSalaRepository } from "interfaces/status-sala.interface";
-import { StatusSalaSchema } from "schemas/status-sala.schema";
+import { StatusSala, StatusSalaRepository } from "status-sala/status-sala.interface";
+import { StatusSalaSchema } from "status-sala/status-sala.schema";
 
 export class StatusSalaRepositoryPrisma implements StatusSalaRepository {
     async create(data: StatusSalaSchema): Promise<StatusSala> {
@@ -9,6 +9,7 @@ export class StatusSalaRepositoryPrisma implements StatusSalaRepository {
                 sensor_id: data.sensor_id,
                 presence: data.presence,
                 temperature: data.temperature,
+                automaticMode: true,
                 lastPresenceTimestamp: data.lastPresenceTimestamp ? new Date(data.lastPresenceTimestamp) : new Date()
             }
         })
@@ -52,5 +53,4 @@ export class StatusSalaRepositoryPrisma implements StatusSalaRepository {
             lastPresenceTimestamp: result.lastPresenceTimestamp.getTime()
         };
     }
-
 }

@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { createSensorSchema } from "../schemas/sensor.schema";
-import { SensorUsecase } from "usecases/sensor.usecase";
+import { createSensorSchema } from "./sensor.schema";
+import { SensorUsecase } from "./sensor.usecase";
 
 export class SensorController {
     private sensorUsecase: SensorUsecase;

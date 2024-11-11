@@ -1,8 +1,8 @@
 import fastify, { FastifyInstance } from "fastify";
 import { ApiError } from "./errors";
 import { z } from "zod";
-import { sensorRoutes } from "./routes/sensor.routes";
-import { logSensorRoutes } from "./routes/log-sensor.routes";
+import { sensorRoutes } from "./sensor/sensor.routes";
+import { logSensorRoutes } from "./leitura-sensor/leitura-sensor.routes";
 
 const app: FastifyInstance = fastify();
 

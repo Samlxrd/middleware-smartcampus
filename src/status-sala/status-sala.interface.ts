@@ -1,10 +1,11 @@
-import { StatusSalaSchema } from "schemas/status-sala.schema";
+import { StatusSalaSchema } from "status-sala/status-sala.schema";
 
 export interface StatusSala {
     id: number;
     sensor_id: number; 
     presence: boolean   
     temperature: number;
+    automaticMode: boolean;
     lastPresenceTimestamp: number;     
 }
 

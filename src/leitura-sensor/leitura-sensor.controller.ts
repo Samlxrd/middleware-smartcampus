@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { LogSensorUsecase } from "../usecases/log-sensor.usecase";
-import { sensorDataSchema } from "schemas/sensor.schema";
+import { LogSensorUsecase } from "./leitura-sensor.usecase";
+import { sensorDataSchema } from "../sensor/sensor.schema";
 
 export class LogSensorController {
     private logSensorUsecase: LogSensorUsecase;

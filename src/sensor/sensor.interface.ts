@@ -1,4 +1,4 @@
-import { CreateSensorSchema } from "../schemas/sensor.schema";
+import { CreateSensorSchema } from "./sensor.schema";
 
 export interface Sensor {
     id: number;

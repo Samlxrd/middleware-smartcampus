@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { validateMiddleware } from "../middlewares/validate.middleware";
-import { LogSensorController } from "../controllers/log-sensor.controller";
+import { LogSensorController } from "./leitura-sensor.controller";
 import { ApiError } from "errors";
 
 interface IdParams {

@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import crypto from 'crypto';
-import { sensorDataSchema } from "schemas/sensor.schema";
+import { sensorDataSchema } from "../sensor/sensor.schema";
 import { env } from "utils/env";
 
 export function validateMiddleware(req: FastifyRequest, reply: FastifyReply, done: Function) {
