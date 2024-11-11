@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { LogSensorUsecase } from "../usecases/log-sensor.usecase";
-import { createLogSensorSchema } from "../schemas/log-sensor.schema";
+import { sensorDataSchema } from "schemas/sensor.schema";
 
 export class LogSensorController {
     private logSensorUsecase: LogSensorUsecase;
@@ -9,7 +9,7 @@ export class LogSensorController {
     }
 
     async create(req: FastifyRequest, reply: FastifyReply) {
-        const logData = createLogSensorSchema.parse(req.body);
+        const logData = sensorDataSchema.parse(req.body);
         const result = await this.logSensorUsecase.create(logData);
         return reply.code(201).send(result);
     }

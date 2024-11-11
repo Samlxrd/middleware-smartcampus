@@ -1,4 +1,4 @@
-import { CreateLogSensorSchema } from "../schemas/log-sensor.schema";
+import { SensorDataSchema } from "schemas/sensor.schema";
 
 export interface LogSensor {
     id: number;
@@ -9,6 +9,6 @@ export interface LogSensor {
 }
 
 export interface LogSensorRepository {
-    create(data: CreateLogSensorSchema): Promise<LogSensor>;
+    create(data: SensorDataSchema): Promise<LogSensor>;
     getLogsBySensorId(sensor_id: number): Promise<LogSensor[]>;
 }

@@ -11,7 +11,7 @@ export function validateMiddleware(req: FastifyRequest, reply: FastifyReply, don
         return;
     }
 
-    const { sensor_id, presence, timestamp, hash } = data.data;
+    const { sensor_id, presence, temperature, timestamp, hash } = data.data;
 
     const requestTimestamp = Math.floor(timestamp / 1000);
     const currentTimestamp = Math.floor(Date.now() / 1000); 
@@ -21,7 +21,7 @@ export function validateMiddleware(req: FastifyRequest, reply: FastifyReply, don
         return;
     }
 
-    const mensagem = `${sensor_id}${presence}${timestamp}`;
+    const mensagem = `${sensor_id}${presence}${temperature}${timestamp}`;
     const hmac = crypto.createHmac('sha256', env.REQUEST_SECRET_KEY).update(mensagem).digest('hex');
 
     if (hmac !== hash) {
