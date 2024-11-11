@@ -30,6 +30,7 @@ model statusSala {
   sensor_id           Int      @unique
   presence            Boolean  @default(false)
   temperature         Float
+  automaticMode       Boolean @default(true)
   lastPresenceTimestamp DateTime @db.Timestamp(6)
   updated_at          DateTime @default(now())
   sensor              sensor   @relation(fields: [sensor_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
