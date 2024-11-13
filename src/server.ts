@@ -2,12 +2,14 @@ import fastify, { FastifyInstance } from "fastify";
 import { ApiError } from "./errors";
 import { z } from "zod";
 import { sensorRoutes } from "./sensor/sensor.routes";
-import { logSensorRoutes } from "./leitura-sensor/leitura-sensor.routes";
+import { LeituraSensorRoutes } from "./leitura-sensor/leitura-sensor.routes";
+import { statusSalaRoutes } from "status-sala/status-sala.routes";
 
 const app: FastifyInstance = fastify();
 
 app.register(sensorRoutes, { prefix: '/sensor' });
-app.register(logSensorRoutes, { prefix: '/leitura' });
+app.register(LeituraSensorRoutes, { prefix: '/leitura' });
+app.register(statusSalaRoutes, { prefix: '/status' });
 
 app.setErrorHandler((error, request, reply) => {
     if (error instanceof ApiError) {

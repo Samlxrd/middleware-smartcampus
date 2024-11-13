@@ -1,15 +1,21 @@
+import { SensorRepository } from "sensor/sensor.interface";
 import { SensorDataSchema } from "../sensor/sensor.schema";
-import { LogSensor, LogSensorRepository } from "./leitura-sensor.interface";
-import { LogSensorRepositoryPrisma } from "./leitura-sensor.repository";
+import { LeituraSensor, LeituraSensorRepository } from "./leitura-sensor.interface";
+import { LeituraSensorRepositoryPrisma } from "./leitura-sensor.repository";
 import { StatusSalaRepository } from "status-sala/status-sala.interface";
 import { StatusSalaRepositoryPrisma } from "status-sala/status-sala.repository";
+import { SensorRepositoryPrisma } from "sensor/sensor.repository";
+import { ApiError } from "errors";
 
-export class LogSensorUsecase {
-    private logSensorRepository: LogSensorRepository;
+export class LeituraSensorUsecase {
+    private leituraSensorRepository: LeituraSensorRepository;
     private statusSalaRepository: StatusSalaRepository;
+    private sensorRepository: SensorRepository;
+
     constructor() {
-        this.logSensorRepository = new LogSensorRepositoryPrisma();
+        this.leituraSensorRepository = new LeituraSensorRepositoryPrisma();
         this.statusSalaRepository = new StatusSalaRepositoryPrisma();
+        this.sensorRepository = new SensorRepositoryPrisma();
     }
 
     private async turnOff(sensor_id: number): Promise<void> {
@@ -32,8 +38,12 @@ export class LogSensorUsecase {
     private async handlePresenceDetection(data: SensorDataSchema): Promise<any> {
         const { sensor_id, presence, temperature, timestamp } = data;
 
+        // Busca o id da sala associado ao id do sensor
+        const roomData = await this.sensorRepository.findUnique(sensor_id);
+        if (!roomData) { throw new ApiError(404, 'Sensor não encontrado'); }
+
         // Envia a leitura do sensor para o backend da aplicação
-        await this.sendRequest(sensor_id, presence, temperature);
+        await this.sendRequest(roomData.id_sala, presence, temperature);
 
         const currentStatus = await this.statusSalaRepository.getBySensorId(sensor_id);
 
@@ -49,6 +59,7 @@ export class LogSensorUsecase {
             return;
         }
 
+        // Atualiza o registro de status da sala
         await this.statusSalaRepository.update({
             sensor_id,
             presence,
@@ -56,29 +67,34 @@ export class LogSensorUsecase {
             lastPresenceTimestamp: presence ? new Date(timestamp).getTime() : currentStatus.lastPresenceTimestamp
         });
 
+        if (!currentStatus.automaticMode) {
+            console.log('Modo manual ativado. Não será feita nenhuma ação.');
+            return;
+        }
+
         // Se não houver presença e a temperatura for menor que 20 graus por pelo menos
         // 5 minutos, enviar comando para desligar o ar-condicionado 
         if (!presence && temperature < 22) {
             const lastPresenceDiff = Date.now() - (new Date(currentStatus.lastPresenceTimestamp!).getTime() || 0);
-            const fiveMinutes = 5 * 60 * 1000;
-            if (lastPresenceDiff > fiveMinutes) {
+            const halfMinute = 30 * 1000;
+            if (lastPresenceDiff > halfMinute) {
                 this.turnOff(sensor_id);
             }
         }
         
     }
 
-    async create(data: SensorDataSchema): Promise<LogSensor> {
+    async create(data: SensorDataSchema): Promise<LeituraSensor> {
 
         data.presence = data.presence === true ? true : false;
         this.handlePresenceDetection(data);
 
-        const result = await this.logSensorRepository.create(data);
+        const result = await this.leituraSensorRepository.create(data);
         return result;
     }
 
-    async getLogsBySensorId(sensor_id: number): Promise<LogSensor[]> {
-        const result = await this.logSensorRepository.getLogsBySensorId(sensor_id);
+    async getLeiturasBySensorId(sensor_id: number): Promise<LeituraSensor[]> {
+        const result = await this.leituraSensorRepository.getLeiturasBySensorId(sensor_id);
         return result;
     }
 }

@@ -10,3 +10,9 @@ export const statusSalaSchema = z.object({
 })
 
 export type StatusSalaSchema = z.infer<typeof statusSalaSchema>;
+
+export const updateAutomaticModeSchema = z.object({
+    automaticMode: z.boolean({ message: 'Você deve informar se o modo automático está ativo.' })
+})
+
+export type UpdateAutomaticModeSchema = z.infer<typeof updateAutomaticModeSchema>;

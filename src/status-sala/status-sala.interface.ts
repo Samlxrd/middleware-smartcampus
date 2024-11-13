@@ -1,4 +1,4 @@
-import { StatusSalaSchema } from "status-sala/status-sala.schema";
+import { StatusSalaSchema, UpdateAutomaticModeSchema } from "status-sala/status-sala.schema";
 
 export interface StatusSala {
     id: number;
@@ -13,4 +13,5 @@ export interface StatusSalaRepository {
     create(data: StatusSalaSchema): Promise<StatusSala>;
     getBySensorId(sensor_id: number): Promise<StatusSala | null>;
     update(data: StatusSalaSchema): Promise<StatusSala>;
+    updateAutomaticMode(sensor_id: number, data: UpdateAutomaticModeSchema): Promise<StatusSala>;
 }
