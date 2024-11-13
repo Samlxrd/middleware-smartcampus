@@ -22,4 +22,13 @@ export class SensorRepositoryPrisma implements SensorRepository {
         return result;
     }
 
+    async findByRoomId(id_sala: number): Promise<Sensor | null> {
+        const result = await prisma.sensor.findFirst({
+            where: {
+                id_sala: id_sala
+            }
+        });
+        return result;
+    }
+
 }
