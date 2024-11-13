@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model leituraSensor {
+  id          Int      @id(map: "logsensor_pkey") @default(autoincrement())
+  sensor_id   Int
+  presence    Boolean  @default(false)
+  temperature Float
+  timestamp   DateTime @db.Timestamp(6)
+  hash        String   @db.VarChar(255)
+  sensor      sensor   @relation(fields: [sensor_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "logsensor_sensor_id_fkey")
+}
+
+model sensor {
+  id            Int             @id @default(autoincrement())
+  id_sensor     Int             @unique
+  id_sala       Int
+  leituraSensor leituraSensor[]
+  statusSala    statusSala?
+}
+
+model statusSala {
+  id                    Int      @id @default(autoincrement())
+  sensor_id             Int      @unique
+  presence              Boolean  @default(false)
+  temperature           Float
+  lastPresenceTimestamp DateTime @db.Timestamp(6)
+  updated_at            DateTime @default(now())
+  automaticMode         Boolean  @default(true)
+  sensor                sensor   @relation(fields: [sensor_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
