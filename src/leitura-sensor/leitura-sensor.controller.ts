@@ -1,21 +1,21 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { LogSensorUsecase } from "./leitura-sensor.usecase";
+import { LeituraSensorUsecase } from "./leitura-sensor.usecase";
 import { sensorDataSchema } from "../sensor/sensor.schema";
 
-export class LogSensorController {
-    private logSensorUsecase: LogSensorUsecase;
+export class LeituraSensorController {
+    private leituraSensorUsecase: LeituraSensorUsecase;
     constructor() {
-        this.logSensorUsecase = new LogSensorUsecase();
+        this.leituraSensorUsecase = new LeituraSensorUsecase();
     }
 
     async create(req: FastifyRequest, reply: FastifyReply) {
-        const logData = sensorDataSchema.parse(req.body);
-        const result = await this.logSensorUsecase.create(logData);
+        const leituraData = sensorDataSchema.parse(req.body);
+        const result = await this.leituraSensorUsecase.create(leituraData);
         return reply.code(201).send(result);
     }
 
-    async getLogsBySensorId(id: number, req: FastifyRequest, reply: FastifyReply) {
-        const result = await this.logSensorUsecase.getLogsBySensorId(id);
+    async getLeiturasBySensorId(id: number, req: FastifyRequest, reply: FastifyReply) {
+        const result = await this.leituraSensorUsecase.getLeiturasBySensorId(id);
         return reply.send(result);
     }
 }

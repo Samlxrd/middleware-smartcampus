@@ -1,6 +1,6 @@
 import { SensorDataSchema } from "../sensor/sensor.schema";
 
-export interface LogSensor {
+export interface LeituraSensor {
     id: number;
     sensor_id: number;
     presence: boolean;
@@ -8,7 +8,7 @@ export interface LogSensor {
     hash: string;
 }
 
-export interface LogSensorRepository {
-    create(data: SensorDataSchema): Promise<LogSensor>;
-    getLogsBySensorId(sensor_id: number): Promise<LogSensor[]>;
+export interface LeituraSensorRepository {
+    create(data: SensorDataSchema): Promise<LeituraSensor>;
+    getLeiturasBySensorId(sensor_id: number): Promise<LeituraSensor[]>;
 }

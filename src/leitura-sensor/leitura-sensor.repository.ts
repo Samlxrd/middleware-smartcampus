@@ -1,10 +1,10 @@
 import { SensorDataSchema } from "../sensor/sensor.schema";
 import { prisma } from "../database/prisma-client";
-import { LogSensor, LogSensorRepository } from "./leitura-sensor.interface";
+import { LeituraSensor, LeituraSensorRepository } from "./leitura-sensor.interface";
 
-export class LogSensorRepositoryPrisma implements LogSensorRepository {
-    async create(data: SensorDataSchema): Promise<LogSensor> {
-        const result = await prisma.logsensor.create({
+export class LeituraSensorRepositoryPrisma implements LeituraSensorRepository {
+    async create(data: SensorDataSchema): Promise<LeituraSensor> {
+        const result = await prisma.leituraSensor.create({
             data: {
                 sensor_id: data.sensor_id,
                 presence: data.presence,
@@ -18,8 +18,8 @@ export class LogSensorRepositoryPrisma implements LogSensorRepository {
             timestamp: result.timestamp.getTime()
         };
     }
-    async getLogsBySensorId(sensor_id: number): Promise<LogSensor[]> {
-        const result = await prisma.logsensor.findMany({
+    async getLeiturasBySensorId(sensor_id: number): Promise<LeituraSensor[]> {
+        const result = await prisma.leituraSensor.findMany({
             where: {
                 sensor_id: sensor_id
             },
@@ -27,10 +27,10 @@ export class LogSensorRepositoryPrisma implements LogSensorRepository {
                 timestamp: 'desc'
             }
         })
-        return result.map(log => {
+        return result.map(leitura => {
             return {
-                ...log,
-                timestamp: log.timestamp.getTime()
+                ...leitura,
+                timestamp: leitura.timestamp.getTime()
             }
         });
     }
