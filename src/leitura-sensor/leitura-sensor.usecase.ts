@@ -74,10 +74,10 @@ export class LeituraSensorUsecase {
 
         // Se não houver presença e a temperatura for menor que 20 graus por pelo menos
         // 5 minutos, enviar comando para desligar o ar-condicionado 
-        if (!presence && temperature < 22) {
+        if (!presence && temperature < 25) {
             const lastPresenceDiff = Date.now() - (new Date(currentStatus.lastPresenceTimestamp!).getTime() || 0);
-            const halfMinute = 30 * 1000;
-            if (lastPresenceDiff > halfMinute) {
+            const fiveMinutes = 60 * 5 * 1000;
+            if (lastPresenceDiff > fiveMinutes) {
                 this.turnOff(sensor_id);
             }
         }
