@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { LeituraSensorUsecase } from "./leitura-sensor.usecase";
-import { sensorDataSchema } from "../sensor/sensor.schema";
+import { sensorDataSchema, turnOffSchema } from "../sensor/sensor.schema";
 
 export class LeituraSensorController {
     private leituraSensorUsecase: LeituraSensorUsecase;
@@ -16,6 +16,11 @@ export class LeituraSensorController {
 
     async getLeiturasBySensorId(id: number, req: FastifyRequest, reply: FastifyReply) {
         const result = await this.leituraSensorUsecase.getLeiturasBySensorId(id);
+        return reply.send(result);
+    }
+    async turnOffByAdm(id: number, req: FastifyRequest, reply: FastifyReply) {
+        const turnOffData = turnOffSchema.parse(req.body);
+        const result = await this.leituraSensorUsecase.turnOffByAdm(id, turnOffData);
         return reply.send(result);
     }
 }

@@ -22,3 +22,9 @@ export const sensorDataSchema = z.object({
 })
 
 export type SensorDataSchema = z.infer<typeof sensorDataSchema>;
+
+export const turnOffSchema = z.object({
+    status: z.boolean({ message: 'Você deve informar que é um comando de desligamento (false).'})
+});
+
+export type TurnOffSchema = z.infer<typeof turnOffSchema>;

@@ -19,4 +19,9 @@ export async function LeituraSensorRoutes(app: FastifyInstance) {
         const id = Number(req.params.id);
         return leituraSensorController.getLeiturasBySensorId(id, req, reply);
     });
+    app.post<{ Params: IdParams }>('/:id/turnoff', async (req, reply) => {
+        if (!req.params.id) { throw new ApiError(400, 'Informe o Id do sensor.')}
+        const id = Number(req.params.id);
+        return leituraSensorController.turnOffByAdm(id, req, reply);
+    });
 }

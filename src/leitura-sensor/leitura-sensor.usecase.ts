@@ -1,5 +1,5 @@
 import { SensorRepository } from "sensor/sensor.interface";
-import { SensorDataSchema } from "../sensor/sensor.schema";
+import { SensorDataSchema, TurnOffSchema } from "../sensor/sensor.schema";
 import { LeituraSensor, LeituraSensorRepository } from "./leitura-sensor.interface";
 import { LeituraSensorRepositoryPrisma } from "./leitura-sensor.repository";
 import { StatusSalaRepository } from "status-sala/status-sala.interface";
@@ -20,6 +20,7 @@ export class LeituraSensorUsecase {
 
     private async turnOff(sensor_id: number): Promise<void> {
         console.log('Simulando o desligamento do ar-condicionado de id ', sensor_id);
+        // Substituir console.log por POST para o ar-condicionado
     }
 
     // Envia request para o backend da aplicação, contendo presença e temperatura da sala cujo sensor_id é passado como parâmetro
@@ -80,8 +81,7 @@ export class LeituraSensorUsecase {
             if (lastPresenceDiff > fiveMinutes) {
                 this.turnOff(sensor_id);
             }
-        }
-        
+        } 
     }
 
     async create(data: SensorDataSchema): Promise<LeituraSensor> {
@@ -96,5 +96,18 @@ export class LeituraSensorUsecase {
     async getLeiturasBySensorId(sensor_id: number): Promise<LeituraSensor[]> {
         const result = await this.leituraSensorRepository.getLeiturasBySensorId(sensor_id);
         return result;
+    }
+
+    async turnOffByAdm(id_sala: number, data: TurnOffSchema): Promise<any> {
+        const sensorFromRoom = await this.sensorRepository.findByRoomId(id_sala);
+        if (!sensorFromRoom) {
+            throw new ApiError(404, 'Sensor não encontrado');
+        }
+
+        // Se for False, é comando para desligar o ar-condicionado
+        if(!data.status) {
+            this.turnOff(sensorFromRoom.id_sensor);
+        }
+        return {"message": "Comando enviado com sucesso."};
     }
 }
